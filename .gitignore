@@ -1,0 +1,5 @@
+# public/*
+!public/.gitkeep
+node_modules/
+vars.toml
+.serverless

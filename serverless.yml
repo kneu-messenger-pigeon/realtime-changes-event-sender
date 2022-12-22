@@ -1,0 +1,114 @@
+# aws ssm  get-parameter --name /sqs-dekanat-changes-producer-user/secret --output text  --query Parameter.Value | wrangler secret put AwsSecretAccessKey
+# aws ssm  get-parameter --name /sqs-dekanat-changes-consumer-user/secret --output text  --query Parameter.Value | wrangler secret put AwsSecretAccessKey
+# aws iam list-access-keys --user-name=sqs-dekanat-changes-consumer-user --output json --query AccessKeyMetadata\[-1\].AccessKeyId
+# aws sqs  get-queue-url --queue-name=dekanat-queue --query QueueUrl
+service: realtime-changes-event-sender
+
+plugins:
+  - serverless-stack-output
+
+custom:
+  output:
+    file: vars.toml
+
+provider:
+  name: aws
+  region: ${env:AWS_DEFAULT_REGION, 'eu-central-1'}
+  stage:  prod
+
+resources:
+  Resources:
+    DekanatChangesQueue:
+      Type: 'AWS::SQS::Queue'
+      Properties:
+        QueueName: dekanat-queue
+    DekanatChangesProducerUser:
+      Type: 'AWS::IAM::User'
+      Properties:
+        UserName: sqs-dekanat-changes-producer-user
+        Policies:
+          - PolicyName: ExampleUserSQSPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - 'sqs:SendMessage'
+                  Resource:
+                    - 'Fn::Join':
+                        - ':'
+                        - - 'arn:aws:sqs:*'
+                          - Ref: 'AWS::AccountId'
+                          - 'Fn::GetAtt':
+                              - DekanatChangesQueue
+                              - QueueName
+
+    DekanatChangesProducerUserKey:
+      Type: 'AWS::IAM::AccessKey'
+      Properties:
+        UserName:
+          Ref: DekanatChangesProducerUser
+
+    DekanatChangesProducerUserKeySecret:
+      Type: 'AWS::SSM::Parameter'
+      Properties:
+        Name: /sqs-dekanat-changes-producer-user/secret
+        Type: String
+        Value:
+          'Fn::GetAtt':
+            - DekanatChangesProducerUserKey
+            - SecretAccessKey
+
+
+    DekanatChangesConsumerUser:
+      Type: 'AWS::IAM::User'
+      Properties:
+        UserName: sqs-dekanat-changes-consumer-user
+        Policies:
+          - PolicyName: ExampleUserSQSPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - 'sqs:ReceiveMessage'
+                    - 'sqs:DeleteMessage'
+                    - 'sqs:GetQueueUrl'
+                    - 'sqs:PurgeQueue'
+                  Resource:
+                    - 'Fn::Join':
+                        - ':'
+                        - - 'arn:aws:sqs:*'
+                          - Ref: 'AWS::AccountId'
+                          - 'Fn::GetAtt':
+                              - DekanatChangesQueue
+                              - QueueName
+
+    DekanatChangesConsumerUserKey:
+      Type: 'AWS::IAM::AccessKey'
+      Properties:
+        UserName:
+          Ref: DekanatChangesConsumerUser
+
+    DekanatChangesConsumerUserKeySecret:
+      Type: 'AWS::SSM::Parameter'
+      Properties:
+        Name: /sqs-dekanat-changes-consumer-user/secret
+        Type: String
+        Value:
+          'Fn::GetAtt':
+            - DekanatChangesConsumerUserKey
+            - SecretAccessKey
+
+
+  Outputs:
+    AwsAccessKeyId:
+      Value:
+        Ref: DekanatChangesProducerUserKey
+    AwsSqsQueueUrl:
+      Value:
+        'Fn::GetAtt':
+          - DekanatChangesQueue
+          - QueueUrl
+    AwsRegion:
+      Value: ${aws:region}

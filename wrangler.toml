@@ -1,0 +1,7 @@
+name = "realtime"
+main = "worker/index.js"
+compatibility_date = "2022-12-21"
+workers_dev = true
+routes = [
+    { pattern = "realtime.dekanat.pp.ua", custom_domain = true, zone_name = "dekanat.pp.ua" }
+]

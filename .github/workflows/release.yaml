@@ -1,0 +1,45 @@
+name: Deploy to Cloudflare and AWS
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  deploy-aws-sqs:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: npm ci
+
+      - name: serverless deploy
+        uses: serverless/github-action@v3.1
+        with:
+          args: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: Put AWS credentials as Cloudflare Workers vars in wrangler.toml
+        run: |
+          echo -e "\n[vars]" >> wrangler.toml
+          grep -v ServerlessDeploymentBucketName vars.toml >> wrangler.toml
+          rm vars.toml
+
+      - name: Get AWS Secret for put into wrangler
+        run: echo "AwsSecretAccessKey=$(aws ssm get-parameter --name /sqs-dekanat-changes-producer-user/secret --output text --query Parameter.Value)" >> $GITHUB_ENV
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Deploy cloudflare workers
+        uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          secrets: |
+            AwsSecretAccessKey
