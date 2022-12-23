@@ -1,0 +1,70 @@
+<form enctype="application/x-www-form-urlencoded" action="./teachers.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=10" method="post" id="reg" name="reg">
+    <div><input type="hidden" value="0" name="hlf" id="hlf"></div>
+    <div><input type="hidden" value="193000" name="prt" id="prt"></div>
+    <div><input type="hidden" value="0" name="prti" id="prti"></div>
+    <div><input type="hidden" value="9999" name="teacher" id="teacher"></div>
+    <div><input type="hidden" value="insert" name="action" id="action"></div>
+    <div><input type="hidden" value="10" name="n" id="n"></div>
+    <div><input type="hidden" value="00AB0000-0000-0000-0000-000CD0000AA0" name="sesID" id="sesID"></div>
+    <div><input type="hidden" value="-1" name="m" id="m"></div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group"><label for="date_z" class="control-label">Дата проведення заняття:</label>
+                <div class="input-group" style="z-index: 10;"><input type="text" class="form-control datepicker" name="date_z" id="date_z" value="23.12.2022" placeholder="дд.мм.рррр">
+                    <div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right dates" role="menu">
+                            <li><a href="#" date-val="22.12.2022">22.12.2022</a></li>
+                            <li><a href="#" date-val="21.12.2022">21.12.2022</a></li>
+                            <li><a href="#" date-val="20.12.2022">20.12.2022</a></li>
+                            <li><a href="#" date-val="19.12.2022">19.12.2022</a></li>
+                            <li><a href="#" date-val="18.12.2022">18.12.2022</a></li>
+                            <li><a href="#" date-val="17.12.2022">17.12.2022</a></li>
+                            <li><a href="#" date-val="16.12.2022">16.12.2022</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6"></div>
+    </div>
+    <h2>Вид заняття</h2>
+    <table class="table">
+        <tbody>
+        <tr>
+            <td><label class="radio-inline" for="tz1"><input type="radio" value="1" name="tzn" id="tz1" checked="checked">ПрЗн (Практичне зан.)</label></td>
+            <td><label class="radio-inline" for="tz2"><input type="radio" value="2" name="tzn" id="tz2">Сем (Семінар)</label></td>
+        </tr>
+        <tr>
+            <td><label class="radio-inline" for="tz3"><input type="radio" value="3" name="tzn" id="tz3">Лаб (Лабораторна роб.)</label></td>
+            <td><label class="radio-inline" for="tz4"><input type="radio" value="4" name="tzn" id="tz4">ІнЗн (Індивід. зан.)</label></td>
+        </tr>
+        <tr>
+            <td><label class="radio-inline" for="tz5"><input type="radio" value="5" name="tzn" id="tz5">МК (Модульний контроль.)</label></td>
+            <td><label class="radio-inline" for="tz6"><input type="radio" value="6" name="tzn" id="tz6">Сам (Контроль самостійної)</label></td>
+        </tr>
+        <tr>
+            <td><label class="radio-inline" for="tz7"><input type="radio" value="7" name="tzn" id="tz7">Реф (Реферат)</label></td>
+            <td><label class="radio-inline" for="tz8"><input type="radio" value="8" name="tzn" id="tz8">Лек (Контроль на лекції)</label></td>
+        </tr>
+        <tr>
+            <td><label class="radio-inline" for="tz9"><input type="radio" value="9" name="tzn" id="tz9">Інше (Інше)</label></td>
+            <td><label class="radio-inline" for="tz10"><input type="radio" value="10" name="tzn" id="tz10">Трен (Тренінги)</label></td>
+        </tr>
+        <tr>
+            <td><label class="radio-inline" for="tz11"><input type="radio" value="11" name="tzn" id="tz11">ПРЗ (Перездача)</label></td>
+            <td><label class="radio-inline" for="tz12"><input type="radio" value="12" name="tzn" id="tz12">Відв. (ФЗВ.Відвід.та актив)</label></td>
+        </tr>
+        <tr>
+            <td><label class="radio-inline" for="tz13"><input type="radio" value="13" name="tzn" id="tz13">КонВп (ФЗВ. Контрольні впр.)</label></td>
+            <td><label class="radio-inline" for="tz15"><input type="radio" value="15" name="tzn" id="tz15">ДистР (Зан.в дистанц.реж.)</label></td>
+        </tr>
+        <tr>
+            <td><label class="radio-inline" for="tz14"><input type="radio" value="14" name="tzn" id="tz14">ПКР (Підсумк.контр.робота)</label></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <div><input id="result" name="result" value="" type="hidden"></div>
+    <div><input id="grade" name="grade" value="" type="hidden"></div>
+    <div class="btn-group btn-group-justified"><button type="button" class="btn btn-success" value="3" id="bresult" name="bresult" style="width:50%;">Зберегти та перейти до оцінок</button><button type="button" class="btn btn-info" name="bgrade" id="bgrade" style="width:50%;">Зберегти без реєстрації оцінок</button></div>
+</form>

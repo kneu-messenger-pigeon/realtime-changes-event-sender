@@ -1,0 +1,23 @@
+<div class="modal fade in" id="m1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Закрити</span></button>
+                <h4 class="modal-title" id="m1ModalLabel">Дії для заняття: 22.12.2022 ІнЗн</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-unstyled">
+                    <li class="mb5"><a class="p16" id="addm" href="./teachers.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=3&prti=999999&prt=193000&d1=&d2=&m=-1&hlf=0&course=undefined">Зареєструвати/редагувати дані щодо оцінок студентів на обраному занятті</a></li>
+                    <li class="mb5"><a class="p16" id="edm" href="./teachers.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=2&action=edit&prti=999999&prt=193000&d1=&d2=&m=-1&hlf=0&course=undefined">Змінити загальні дані щодо заняття</a></li>
+                    <li class="mb5"><a class="p16" id="delzn" onclick="if (! confirm('Увага! Всі дані щодо заняття будуть видалені як введені помилково! Ви впевнені?')) return false;" href="./teachers.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=11&action=delete&prti=999999&prt=193000&d1=&d2=&m=-1&hlf=0&course=undefined">Видалити дані щодо заняття, як зареєстровані помилково</a></li>
+                    <li class="mb5"><a class="p16" id="insrem" href="./teachers.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=2&action=edit&prti=999999&prt=193000&d1=&d2=&m=-1&hlf=0&course=undefined&type=rem">Додати/Редагувати примітку</a></li>
+                    <li role="separator" class="divider">
+                        <hr style="margin: 10px 0;">
+                    </li>
+                    <li class="mb5"><a class="p16" id="inslink" href="./kaf.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=2&id_tpd=193000&action=library-disciplines&rout=inslink&prti=999999&&prt=193000&d1=&d2=&m=-1&hlf=0&course=undefined&type=link">Приєднати картку заняття</a></li>
+                    <li class="mb5"><a class="p16" id="remlink" href="./kaf.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=2&id_tpd=193000&action=library-disciplines&rout=remlink&prti=999999&&prt=193000&d1=&d2=&m=-1&hlf=0&course=undefined&type=link" style="display: none;">Від`єднати картку заняття</a></li>
+                    <li class="mb5"><a class="p16" id="viewlink" href="./kaf.cgi?sesID=00AB0000-0000-0000-0000-000CD0000AA0&n=2&id_tpd=193000&action=library-disciplines&rout=lecture&prti=999999&&prt=193000&d1=&d2=&m=-1&hlf=0&course=undefined&type=link" style="display: none;">Переглянути/редагувати картку заняття</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
