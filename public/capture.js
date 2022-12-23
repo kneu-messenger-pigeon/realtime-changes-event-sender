@@ -53,6 +53,8 @@
     const setupRegFormCapture = function (node) {
         let regForm = node.querySelector('#reg')
         if (regForm) {
+            submitEventPreConnect();
+
             captureRegForm.form = regForm
             regForm.removeEventListener('submit', captureRegForm);
             regForm.addEventListener('submit', captureRegForm);
@@ -78,6 +80,7 @@
     const setupDeleteLessonCapture = function (node) {
         let deleteLink = node.querySelector('#delzn');
         if (deleteLink) {
+            submitEventPreConnect();
             deleteLink.removeEventListener('click', deleteLessonCapture)
             deleteLink.addEventListener('click', deleteLessonCapture)
         }
