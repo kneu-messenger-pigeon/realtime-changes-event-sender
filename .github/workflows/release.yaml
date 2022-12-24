@@ -17,9 +17,23 @@ jobs:
        - run: npm ci
        - run: npm test
 
+  merge-stable:
+    name: "Deploy Cloudflare pages: merge to stable branch"
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Merge development -> staging
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: main
+        target_branch: stable
+        github_token: ${{ github.token }}
+
 
   deploy-aws-sqs:
-    name: deploy
+    name: Deploy to AWS and Cloudflare workers
     runs-on: ubuntu-latest
     needs: test
     steps:
