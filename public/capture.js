@@ -25,15 +25,7 @@
     }
 
     const captureRegForm = function (e) {
-        if (e.hasOwnProperty('originalEvent')) {
-            e = e.originalEvent
-        }
-
-        if (e.hasOwnProperty('realtimeCaptured') && e.realtimeCaptured) {
-            return;
-        }
-
-        if (!e.defaultPrevented || e.type === 'click') {
+        if (!e.realtimeCaptured && !e.defaultPrevented) {
             e.realtimeCaptured = true
             let form = captureRegForm.form
             for (let element of [e.target, e.target.form, this, this.form]) {
@@ -70,7 +62,7 @@
 
     const deleteLessonCapture = function (e) {
         e.defaultPrevented || submitEvent(new URLSearchParams(
-            e.target.getAttribute('href').split('#')[0].split('?')[1] || ''
+            e.target.getAttribute('href').split('#')[0].split('?')[1]
         ))
     }
 
@@ -90,7 +82,7 @@
         for (let mutation of mutationList) {
             if (mutation.addedNodes.length) {
                 setupDeleteLessonCapture(mutation.target);
-                return;
+                break;
             }
         }
     });
@@ -105,17 +97,16 @@
         setupRegFormCapture(document)
     }
 
+    document.addEventListener('DOMContentLoaded', setupCapture)
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
         setupCapture();
-    } else {
-        document.addEventListener('DOMContentLoaded', setupCapture)
     }
 
     const loadScript = function (src) {
-        let polyfillScript = document.createElement('script')
-        polyfillScript.setAttribute('src', src);
-        polyfillScript.setAttribute('defer', 'defer')
-        document.head.appendChild(polyfillScript)
+        let script = document.createElement('script')
+        script.setAttribute('src', src);
+        script.setAttribute('defer', 'defer')
+        document.head.appendChild(script)
     }
 
     window.FormData || loadScript('https://cdn.jsdelivr.net/npm/formdata-polyfill@4.0.10/formdata.min.js')
