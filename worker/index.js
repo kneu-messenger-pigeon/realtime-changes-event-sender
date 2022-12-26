@@ -18,13 +18,14 @@ function myCredentialProvider() {
  * @param headers Headers
  * @return {Promise}
  */
-async function sendMessage(payload, headers) {
+async function sendMessage(payload, headers, timestamp) {
     if (!Object.keys(payload).length) {
         return new Promise.resolve();
     }
 
     payload.IP = headers.get("Cf-Connecting-Ip")
     payload.Referer = headers.get("Referer")
+    payload.timestamp = timestamp / 1E3 | 0
 
     return clientSqs.send(new SendMessageCommand({
         // use wrangler secrets to provide this global variable
@@ -51,7 +52,7 @@ async function handleRequest (event) {
 
     if (event.request.method === 'POST') {
         let payload = await request.json()
-        event.waitUntil(sendMessage(payload, request.headers))
+        event.waitUntil(sendMessage(payload, request.headers, event.eventTimestamp))
     }
 
     return new Response(null, {
