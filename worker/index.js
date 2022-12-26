@@ -25,6 +25,7 @@ async function sendMessage(payload, headers) {
 
     payload.IP = headers.get("Cf-Connecting-Ip")
     payload.Referer = headers.get("Referer")
+    payload.timestamp = Date.now() / 1E3 | 0
 
     return clientSqs.send(new SendMessageCommand({
         // use wrangler secrets to provide this global variable
