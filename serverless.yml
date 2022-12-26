@@ -1,7 +1,7 @@
-# aws ssm  get-parameter --name /sqs-dekanat-changes-producer-user/secret --output text  --query Parameter.Value | wrangler secret put AwsSecretAccessKey
-# aws ssm  get-parameter --name /sqs-dekanat-changes-consumer-user/secret --output text  --query Parameter.Value | wrangler secret put AwsSecretAccessKey
+# aws ssm get-parameter --name /sqs-dekanat-changes-producer-user/secret --output text  --query Parameter.Value | wrangler secret put AwsSecretAccessKey
+# aws sqs get-queue-url --queue-name=dekanat-queue --query QueueUrl
 # aws iam list-access-keys --user-name=sqs-dekanat-changes-consumer-user --output json --query AccessKeyMetadata\[-1\].AccessKeyId
-# aws sqs  get-queue-url --queue-name=dekanat-queue --query QueueUrl
+# aws ssm get-parameter --name /sqs-dekanat-changes-consumer-user/secret --output text  --query Parameter.Value
 service: realtime-changes-event-sender
 
 plugins:
