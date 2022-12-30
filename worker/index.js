@@ -14,8 +14,8 @@ function myCredentialProvider() {
 }
 
 /**
- * @param form Object
- * @param headers Headers
+ * @param {Object} form
+ * @param {Headers} headers
  * @return {Promise}
  */
 async function sendMessage(form, headers) {
@@ -25,7 +25,7 @@ async function sendMessage(form, headers) {
 
     let eventData = {
         timestamp: Date.now() / 1E3 | 0,
-        ip:  headers.get("Cf-Connecting-Ip"),
+        ip: headers.get("Cf-Connecting-Ip"),
         referer: headers.get("Referer"),
         form: form,
     }
@@ -35,6 +35,7 @@ async function sendMessage(form, headers) {
         QueueUrl: AwsSqsQueueUrl,
         MessageBody: JSON.stringify(eventData),
         MessageGroupId: "dekanat",
+        MessageDeduplicationId: form["prt"] || form["sesID"] || headers.get("Cf-Connecting-Ip"),
     }));
 }
 
@@ -47,15 +48,12 @@ const corsHeaders = {
 }
 
 /**
- *
- * @param event Event
+ * @param {FetchEvent} Event
  * @return {Promise<Response>}
  */
 async function handleRequest (event) {
-    const { request } = event;
-
     if (event.request.method === 'POST') {
-        let payload = await request.json()
+        let payload = await event.request.json()
         event.waitUntil(sendMessage(payload, request.headers))
     }
 
