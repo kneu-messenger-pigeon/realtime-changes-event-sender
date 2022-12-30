@@ -34,8 +34,6 @@ async function sendMessage(form, headers) {
         // use wrangler secrets to provide this global variable
         QueueUrl: AwsSqsQueueUrl,
         MessageBody: JSON.stringify(eventData),
-        MessageGroupId: "dekanat",
-        MessageDeduplicationId: form["prt"] || form["sesID"] || headers.get("Cf-Connecting-Ip"),
     }));
 }
 
