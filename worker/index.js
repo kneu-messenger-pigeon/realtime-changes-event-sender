@@ -48,13 +48,13 @@ const corsHeaders = {
 }
 
 /**
- * @param {FetchEvent} Event
+ * @param {FetchEvent} event
  * @return {Promise<Response>}
  */
 async function handleRequest (event) {
     if (event.request.method === 'POST') {
         let payload = await event.request.json()
-        event.waitUntil(sendMessage(payload, request.headers))
+        event.waitUntil(sendMessage(payload, event.request.headers))
     }
 
     return new Response(null, {
