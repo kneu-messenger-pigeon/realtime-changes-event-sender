@@ -1,5 +1,5 @@
 # aws ssm get-parameter --name /sqs-dekanat-changes-producer-user/secret --output text  --query Parameter.Value | wrangler secret put AwsSecretAccessKey
-# aws sqs get-queue-url --queue-name=dekanat-queue.fifo --query QueueUrl
+# aws sqs get-queue-url --queue-name=dekanat-queue --query QueueUrl
 # aws iam list-access-keys --user-name=sqs-dekanat-changes-consumer-user --output json --query AccessKeyMetadata\[-1\].AccessKeyId
 # aws ssm get-parameter --name /sqs-dekanat-changes-consumer-user/secret --output text  --query Parameter.Value
 service: realtime-changes-event-sender
@@ -21,10 +21,9 @@ resources:
     DekanatChangesQueue:
       Type: 'AWS::SQS::Queue'
       Properties:
-        QueueName: dekanat-queue.fifo
+        QueueName: dekanat-queue
         # 4 days
         MessageRetentionPeriod: 345600
-        FifoQueue: true
         DelaySeconds: 2
         VisibilityTimeout: 5
         RedrivePolicy:
@@ -37,10 +36,9 @@ resources:
     DekanatChangesDeadLetterQueue:
       Type: 'AWS::SQS::Queue'
       Properties:
-        QueueName: dekanat-queue-dead-letter.fifo
+        QueueName: dekanat-queue-dead-letter
         # 14 days
         MessageRetentionPeriod: 1209600
-        FifoQueue: true
 
     DekanatChangesProducerUser:
       Type: 'AWS::IAM::User'
