@@ -98,6 +98,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', setupCapture)
+    window.addEventListener('pageshow', function (event) {
+        event.persisted && setupCapture();
+    });
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
         setupCapture();
     }

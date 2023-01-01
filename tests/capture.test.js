@@ -158,6 +158,10 @@ test('Create lesson', async () => {
     require(__dirname + "/html/lesson-form.js");
     require("../public/capture.js");
 
+    window.dispatchEvent(new PageTransitionEvent('pageshow', {
+        persisted: true,
+    }))
+
     expect(fetch).toHaveBeenLastCalledWith(eventEndpoint, {
         method: "HEAD",
         cache: "no-cache",
